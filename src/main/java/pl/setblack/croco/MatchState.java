@@ -25,7 +25,6 @@ public class MatchState {
     MatchState sayNumber(String player, BigDecimal value, Promise<Result> resultPromise) {
         Tuple2<CrocoGame, Result> newGameState = gameState.sayNumber(player, value);
         if ( newGameState._2.outcome == Outcome.WAITING) {
-            //Promise<Result> promised = Promise.make();
             return new MatchState(newGameState._1, Option.some(resultPromise));
         } else {
             Result thisPlayerResult = newGameState._2;

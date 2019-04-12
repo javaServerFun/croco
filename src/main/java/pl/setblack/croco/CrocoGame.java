@@ -41,11 +41,11 @@ class InitialNumber implements CrocoGame {
     private Result calcResult(String player, BigDecimal number) {
             int diff = number.compareTo(prevValue);
             if ( diff > 0) {
-                return Result.from(Outcome.WON, number, prevValue,  player);
+                return Result.from(Outcome.WON, number, prevValue,  otherPlayer);
             } else if (diff < 0){
-                return Result.from(Outcome.LOST, number, prevValue,  player);
+                return Result.from(Outcome.LOST, number, prevValue,  otherPlayer);
             } else {
-                return Result.from(Outcome.DRAW, number, prevValue, player);
+                return Result.from(Outcome.DRAW, number, prevValue, otherPlayer);
             }
     }
 }

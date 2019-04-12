@@ -1,11 +1,7 @@
 package pl.setblack.croco;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.vavr.API;
-import io.vavr.concurrent.Promise;
 import io.vavr.jackson.datatype.VavrModule;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.server.reactive.HttpHandler;
 import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -16,11 +12,9 @@ import reactor.core.publisher.Mono;
 import reactor.netty.DisposableServer;
 import reactor.netty.http.server.HttpServer;
 
-import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.concurrent.atomic.AtomicReference;
 
 import static kotlin.io.ConsoleKt.readLine;
 import static org.springframework.web.reactive.function.BodyInserters.fromObject;
@@ -31,7 +25,6 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 
 
 public class Server {
-    private final AtomicReference<MatchState> matchState = new AtomicReference<>(MatchState.empty());
     private final ObjectMapper mapper = new ObjectMapper();
     private final Clock clock;
     public Server(Clock clock) {
@@ -64,18 +57,9 @@ public class Server {
                     .andRoute(POST("/croco/{player}/{number}"), postCroco());
     }
 
-    @NotNull
     private HandlerFunction<ServerResponse> postCroco() {
         return request -> {
-            String player = request.pathVariable("player");
-            String numberAsString = request.pathVariable("number");
-            BigDecimal number = new BigDecimal(numberAsString);
-            Promise<Result> promisedResult = Promise.make();
-            final Mono<Result> result = Mono.fromFuture(promisedResult.future().toCompletableFuture());
-            final Mono<String> stringResult = result.map ( res ->
-                API.unchecked( () -> mapper.writer().writeValueAsString(res)).apply() //checked exception handling trick
-            );
-            matchState.getAndUpdate( match -> match.sayNumber(player, number, promisedResult));
+            final Mono<String> stringResult = Mono.just("oops");
             return ServerResponse.ok().body(fromPublisher(stringResult, String.class ));
         };
     }

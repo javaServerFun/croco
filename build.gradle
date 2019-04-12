@@ -17,7 +17,7 @@ plugins {
 apply plugin: 'application'
 
 
-mainClassName = "pl.setblack.fibo.FiboServerKt"
+mainClassName = "pl.setblack.croco.Server"
 
 
 jar {
@@ -29,6 +29,10 @@ jar {
 
 repositories {
     mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
 }
 
 dependencies {
@@ -44,6 +48,10 @@ dependencies {
     compile("io.vavr:vavr-jackson:0.10.0")
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.8'
+
+    testImplementation 'io.kotlintest:kotlintest-runner-junit5:3.3.0'
+    // https://mvnrepository.com/artifact/org.springframework/spring-test
+    testCompile group: 'org.springframework', name: 'spring-test', version: '5.1.6.RELEASE'
 
 }
 compileKotlin {

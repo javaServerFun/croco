@@ -19,6 +19,7 @@ import reactor.netty.http.server.HttpServer;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.concurrent.atomic.AtomicReference;
 
 import static kotlin.io.ConsoleKt.readLine;
@@ -41,7 +42,6 @@ public class Server {
     private void start() {
         RouterFunction route = createRoute();
 
-
         HttpHandler httpHandler = RouterFunctions.toHttpHandler(route);
         ReactorHttpHandlerAdapter adapter = new ReactorHttpHandlerAdapter(httpHandler);
         DisposableServer server = HttpServer
@@ -60,7 +60,7 @@ public class Server {
     RouterFunction createRoute() {
         return route(
                     GET("/time"), request ->
-                            ServerResponse.ok().body(fromObject(LocalDateTime.now().toString())))
+                            ServerResponse.ok().body(fromObject(LocalDateTime.now(this.clock).toInstant(ZoneOffset.UTC).toString())))
                     .andRoute(POST("/croco/{player}/{number}"), postCroco());
     }
 

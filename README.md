@@ -17,3 +17,7 @@ Game shoud say who wins
 
 Start coding in:
 [Server](/src/main/java/pl/setblack/croco/Server.java)
+
+
+## Help
+As always there is a [solution](/tree/solution) branch

@@ -11,6 +11,10 @@ example usage
 
 curl -d '' http://localhost:8080/croco/Irek/615
 
+in other (parallel) bash session
+
+curl -d '' http://localhost:8080/croco/Arek/620
+
 
 Game shoud say who wins
 
